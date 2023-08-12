@@ -42,6 +42,8 @@ from .distributions import (
     const,
 )
 
+from .dice import Coin, Die
+
 _squigglepy_internal_sample_caches = {}
 
 
@@ -909,6 +911,34 @@ def sample(
         elif isinstance(dist, DiscreteDistribution):
             samples = discrete_sample(
                 dist.items,
+                samples=n,
+                _multicore_tqdm_n=_multicore_tqdm_n,
+                _multicore_tqdm_cores=_multicore_tqdm_cores,
+            )
+
+        elif isinstance(dist, Die):
+            samples = discrete_sample(
+                list(range(1, dist.sides + 1)),
+                samples=n,
+                _multicore_tqdm_n=_multicore_tqdm_n,
+                _multicore_tqdm_cores=_multicore_tqdm_cores,
+            )
+            if dist.explode_on is not None:
+                samples = _enlist(samples)
+                explosion_samples = samples
+                n_explosions = 1
+                while n_explosions > 0:
+                    explosion_samples = _enlist(explosion_samples)
+                    n_explosions = sum([s in dist.explode_on for s in explosion_samples])
+                    if n_explosions > 0:
+                        explosion_samples = discrete_sample(
+                            list(range(1, dist.sides + 1)), samples=n_explosions
+                        )
+                        samples.append(explosion_samples)
+
+        elif isinstance(dist, Coin):
+            samples = discrete_sample(
+                ["heads", "tails"],
                 samples=n,
                 _multicore_tqdm_n=_multicore_tqdm_n,
                 _multicore_tqdm_cores=_multicore_tqdm_cores,

@@ -181,7 +181,8 @@ roll_die(sides=6, n=10)
 # [2, 6, 5, 2, 6, 2, 3, 1, 5, 2]
 ```
 
-This is already included standard in the utils of this package. Use `sq.roll_die`.
+(This is a toy example. For better dice rolling, use the built-in `sq.die`)
+
 
 ### Bayesian inference
 
@@ -396,10 +397,10 @@ from squigglepy.numbers import K, M, B, T
 from squigglepy import bayes
 
 def define_event():
-    if sq.flip_coin() == 'heads': # Blue bag
-        return sq.roll_die(6)
+    if ~sq.coin() == 'heads': # Blue bag
+        return sq.die(6)
     else: # Red bag
-        return sq.discrete([4, 6, 10, 20]) >> sq.roll_die
+        return sq.discrete([4, 6, 10, 20]) >> sq.die
 
 
 bayes.bayesnet(define_event,

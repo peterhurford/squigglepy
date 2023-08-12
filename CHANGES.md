@@ -3,6 +3,7 @@
 * **[Breaking change]** This package now only supports Python 3.9 and higher.
 * **[Breaking change]** `get_percentiles` and `get_log_percentiles` now always return a dictionary, even if there's only one element.
 * **[Breaking change]** `.type` is now removed from distribution objects.
+* **[Breaking change]** `sq.flip_coin` and `sq.roll_die` as functions are now functionally replaced by sampling from `sq.coin` or `sq.die` distribution objects.
 * Package load time is now ~2x faster.
 * Pandas and matplotlib as removed as required dependencies, but their related features are lazily enabled when the modules are available. These packages are still available for install  as extras, installable with `pip install squigglepy[plots]` (for plotting-related functionality, matplotlib for now), `pip install squigglepy[ecosystem]` (for pandas, and in the future other related packages), or `pip install squigglepy[all]` (for all extras).
 * Multicore distribution now does extra checks to avoid crashing from race conditions.
