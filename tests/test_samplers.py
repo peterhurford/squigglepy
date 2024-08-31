@@ -848,11 +848,12 @@ def test_sample_callable_resolves_fully():
     assert sample(sample_fn) == 5
 
 
+@patch.object(samplers, "gamma_sample", Mock(return_value=1))
 @patch.object(samplers, "normal_sample", Mock(return_value=1))
 @patch.object(samplers, "lognormal_sample", Mock(return_value=4))
 def test_sample_callable_resolves_fully2():
     def really_inner_sample_fn():
-        return 1
+        return gamma(1, 4)
 
     def inner_sample_fn():
         return norm(1, 4) + lognorm(1, 10) + really_inner_sample_fn()
@@ -870,15 +871,16 @@ def test_sample_invalid_input():
 
 
 @patch.object(samplers, "normal_sample", Mock(return_value=100))
+@patch.object(samplers, "lognormal_sample", Mock(return_value=100))
 def test_sample_math():
-    assert ~(norm(0, 1) + norm(1, 2)) == 200
+    assert ~(norm(0, 1) + lognorm(1, 2)) == 200
 
 
 @patch.object(samplers, "normal_sample", Mock(return_value=10))
 @patch.object(samplers, "lognormal_sample", Mock(return_value=100))
 def test_sample_complex_math():
-    obj = (2 ** norm(0, 1)) - (8 * 6) + 2 + (lognorm(10, 100) / 11) + 8
-    expected = (2**10) - (8 * 6) + 2 + (100 / 11) + 8
+    obj = (2 ** norm(0, 1)) - (8 * 6) + 2 + (lognorm(10, 100) + 11) / 8
+    expected = (2**10) - (8 * 6) + 2 + (100 + 11) / 8
     assert ~obj == expected
 
 
