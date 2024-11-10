@@ -1,6 +1,6 @@
 ## v0.29
 
-* ???
+* Added `third_kelly` as an alias for `kelly` with deference = 0.66.
 
 
 ## v0.28
