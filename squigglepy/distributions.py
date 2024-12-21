@@ -1028,11 +1028,11 @@ def beta(a, b):
 class BernoulliDistribution(DiscreteDistribution):
     def __init__(self, p):
         super().__init__()
-        if not isinstance(p, float) or isinstance(p, int):
+        if not isinstance(p, (float, int)):
             raise ValueError("bernoulli p must be a float or int")
-        if p <= 0 or p >= 1:
-            raise ValueError("bernoulli p must be 0-1 (exclusive)")
-        self.p = p
+        if not 0 <= p <= 1:
+            raise ValueError("bernoulli p must be between 0 and 1 inclusive")
+        self.p = float(p)
 
     def __str__(self):
         return "<Distribution> bernoulli(p={})".format(self.p)

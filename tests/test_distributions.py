@@ -439,6 +439,34 @@ def test_bernoulli():
     assert isinstance(bernoulli(0.1), BernoulliDistribution)
     assert bernoulli(0.1).p == 0.1
     assert str(bernoulli(0.1)) == "<Distribution> bernoulli(p=0.1)"
+    assert bernoulli(1).p == 1.0  # Int converted to float
+    assert bernoulli(0).p == 0.0  # Int converted to float
+
+    # Invalid cases
+    try:
+        bernoulli(-0.1)
+    except ValueError as e:
+        assert str(e) == "bernoulli p must be between 0 and 1 inclusive"
+
+    try:
+        bernoulli(1.1)
+    except ValueError as e:
+        assert str(e) == "bernoulli p must be between 0 and 1 inclusive"
+
+    try:
+        bernoulli("string")
+    except ValueError as e:
+        assert str(e) == "bernoulli p must be a float or int"
+
+    try:
+        bernoulli(None)
+    except ValueError as e:
+        assert str(e) == "bernoulli p must be a float or int"
+
+    try:
+        bernoulli([0.5])
+    except ValueError as e:
+        assert str(e) == "bernoulli p must be a float or int"
 
 
 def test_tdist():
