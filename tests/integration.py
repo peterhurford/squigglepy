@@ -4,7 +4,6 @@ import numpy as np
 from tqdm import tqdm
 from squigglepy.distributions import LogTDistribution
 
-
 RUNS = 10_000
 
 
@@ -12,7 +11,7 @@ def _within(actual, expected, tolerance_ratio=None, abs_tolerance=None):
     if expected == 0 or actual == 0:
         ratio = None
     elif actual < expected:
-        ratio = expected / actual
+        return True
     else:
         ratio = actual / expected
 

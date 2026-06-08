@@ -15,8 +15,8 @@ classifiers = [
 repository = "https://github.com/rethinkpriorities/squigglepy"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.14"
-msgspec = "^0.20.0"
+python = ">=3.11,<3.15"
+msgspec = "^0.21.0"
 numpy = "^2.4.0"
 scipy = "^1.16.3"
 pyyaml = "^6.0.3"
