@@ -5,7 +5,6 @@
 * **[Breaking change]** Removed `roll_die` and `flip_coin` functions. Use `sq.die(sides) @ n` or `~sq.coin()` instead.
 * **[New feature]** Added `die(sides, explode_on=None)` and `coin()` as distribution objects for dice and coins. These support all distribution operations like `~`, `@`, `+`, `-`, etc. The `die` distribution also supports "exploding dice" mechanics via the `explode_on` parameter.
 * **[New feature]** Added `dirichlet(alpha)` distribution, a multivariate generalization of the beta distribution that samples a probability vector summing to 1.
-* Documented `dirichlet` parameterization (raw concentration vector, not 90% CI) and the `n=1` vs `n>1` output-shape squeeze; added a mean-recovery test that catches axis/normalization regressions a shape-only test would miss.
 * Added documentation for model functions and `sq.sample` in README.
 * Uses prettier `tqdm` output that is now aware of Jupyter notebooks.
 * `bayes.update` now supports `lognorm` and `gamma` distributions in addition to `norm` and `beta`.
