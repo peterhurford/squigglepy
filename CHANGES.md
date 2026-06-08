@@ -1,14 +1,19 @@
+## v0.31 - development version
+
+* No changes yet
+
+
 ## v0.30 - latest release
 
 * **[Breaking change]** Adds support for Python 3.13 and 3.14, drops support for Python 3.9 and 3.10.
-* Integration test timing checks no longer warn when a test runs faster than its baseline — only slower-than-baseline deviations are flagged.
 * **[Breaking change]** Removed `roll_die` and `flip_coin` functions. Use `sq.die(sides) @ n` or `~sq.coin()` instead.
-* **[New feature]** Added `die(sides, explode_on=None)` and `coin()` as distribution objects for dice and coins. These support all distribution operations like `~`, `@`, `+`, `-`, etc. The `die` distribution also supports "exploding dice" mechanics via the `explode_on` parameter.
-* **[New feature]** Added `dirichlet(alpha)` distribution, a multivariate generalization of the beta distribution that samples a probability vector summing to 1.
+* Added `die(sides, explode_on=None)` and `coin()` as distribution objects for dice and coins. These support all distribution operations like `~`, `@`, `+`, `-`, etc. The `die` distribution also supports "exploding dice" mechanics via the `explode_on` parameter.
+* Added `dirichlet(alpha)` distribution, a multivariate generalization of the beta distribution that samples a probability vector summing to 1.
 * Added documentation for model functions and `sq.sample` in README.
 * Uses prettier `tqdm` output that is now aware of Jupyter notebooks.
 * `bayes.update` now supports `lognorm` and `gamma` distributions in addition to `norm` and `beta`.
 * Allow `zero_inflated` to accept 0 or 1 as probabilities.
+* Integration test timing checks no longer warn when a test runs faster than its baseline — only slower-than-baseline deviations are flagged.
 
 
 ## v0.29
