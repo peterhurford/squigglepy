@@ -21,7 +21,6 @@ from .distributions import (
 )
 from .utils import _core_cuts, _init_tqdm, _tick_tqdm, _flush_tqdm
 
-
 _squigglepy_internal_bayesnet_caches = {}
 
 
