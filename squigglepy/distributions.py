@@ -1230,6 +1230,23 @@ def dirichlet(alpha):
     -------
     DirichletDistribution
 
+    Notes
+    -----
+    Unlike most squigglepy distributions, ``alpha`` is not a 90% CI — it
+    is the raw concentration vector. To pick ``alpha`` from a target mean
+    share ``p_i`` and total concentration ``alpha_0``, set
+    ``alpha_i = p_i * alpha_0``. To target a marginal standard deviation
+    ``s`` on a component with mean share ``p``, solve
+    ``alpha_0 = p * (1 - p) / s**2 - 1`` and then
+    ``alpha_i = p_i * alpha_0``.
+
+    The shape returned by ``sample`` follows squigglepy's usual squeeze:
+    ``sample(dirichlet(alpha))`` returns shape ``(K,)`` while
+    ``sample(dirichlet(alpha), n=N)`` for ``N > 1`` returns ``(N, K)``.
+    Downstream code that does e.g. ``np.sort(x, axis=1)`` will break at
+    ``n=1`` because there is no axis 1 — pass ``n=N`` with ``N > 1`` (or
+    handle the 1-D case explicitly) when chaining axis-aware ops.
+
     Examples
     --------
     >>> dirichlet([1, 1, 1])

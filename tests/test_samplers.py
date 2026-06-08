@@ -662,6 +662,19 @@ def test_sample_n_gt_1_dirichlet():
     assert (out >= 0).all()
 
 
+def test_dirichlet_mean_recovery():
+    # Pins distributional correctness: shape-only tests would still pass
+    # under a transposed-axis or bad-normalization sampler.
+    alpha = np.array([1.0, 2.0, 3.0])
+    a0 = alpha.sum()
+    n = 200_000
+    X = sample(dirichlet(list(alpha)), n=n)
+    mean_th = alpha / a0
+    se = np.sqrt(alpha * (a0 - alpha) / (a0**2 * (a0 + 1)) / n)
+    assert np.all(np.abs(X.mean(axis=0) - mean_th) < 5 * se)
+    assert np.allclose(X.sum(axis=1), 1.0)
+
+
 def test_sample_n_gt_1_bernoulli():
     out = sample(bernoulli(0.1), n=5)
     assert _is_numpy(out)
