@@ -1,4 +1,4 @@
-## v0.30 - development version
+## v0.30 - latest release
 
 * **[Breaking change]** Adds support for Python 3.13 and 3.14, drops support for Python 3.9 and 3.10.
 * Integration test timing checks no longer warn when a test runs faster than its baseline — only slower-than-baseline deviations are flagged.
@@ -11,7 +11,7 @@
 * Allow `zero_inflated` to accept 0 or 1 as probabilities.
 
 
-## v0.29 - latest release
+## v0.29
 
 * Fixes a bug where `max_gain` and `modeled_gain` were incorrect in kelly output.
 * Fixes a bug where `error` was not correctly passed from `half_kelly`, `third_kelly`, and `quarter_kelly`.
