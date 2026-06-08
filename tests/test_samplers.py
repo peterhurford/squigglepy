@@ -10,6 +10,7 @@ from ..squigglepy.distributions import (
     lognorm,
     binomial,
     beta,
+    dirichlet,
     bernoulli,
     discrete,
     tdist,
@@ -642,6 +643,23 @@ def test_sample_n_gt_1_beta():
     out = sample(beta(5, 10), n=5)
     assert _is_numpy(out)
     assert len(out) == 5
+
+
+def test_sample_dirichlet():
+    out = sample(dirichlet([1, 2, 3]))
+    assert _is_numpy(out)
+    assert out.shape == (3,)
+    assert out.min() >= 0
+    assert out.max() <= 1
+    assert round(float(out.sum()), 6) == 1.0
+
+
+def test_sample_n_gt_1_dirichlet():
+    out = sample(dirichlet([1, 2, 3, 4]), n=5)
+    assert _is_numpy(out)
+    assert out.shape == (5, 4)
+    assert np.allclose(out.sum(axis=1), 1.0)
+    assert (out >= 0).all()
 
 
 def test_sample_n_gt_1_bernoulli():

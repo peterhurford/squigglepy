@@ -1,5 +1,6 @@
 ## v0.30 - development version
 
+* **[New feature]** Added `dirichlet(alpha)` distribution, a multivariate generalization of the beta distribution that samples a probability vector summing to 1.
 * Added documentation for model functions and `sq.sample` in README.
 * Adds support for Python 3.13, drops support for Python 3.9 and 3.10.
 * Uses prettier `tqdm` output that is now aware of Jupyter notebooks.

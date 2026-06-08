@@ -1187,6 +1187,57 @@ def beta(a, b):
     return BetaDistribution(a, b)
 
 
+class DirichletDistribution(ContinuousDistribution):
+    def __init__(self, alpha):
+        super().__init__()
+        if isinstance(alpha, np.ndarray):
+            alpha_list = alpha.tolist()
+        elif isinstance(alpha, (list, tuple)):
+            alpha_list = list(alpha)
+        else:
+            raise ValueError("dirichlet alpha must be a list, tuple, or numpy array")
+        if len(alpha_list) < 2:
+            raise ValueError("dirichlet alpha must have length >= 2")
+        for a in alpha_list:
+            if not isinstance(a, (int, float)) or isinstance(a, bool):
+                raise ValueError("dirichlet alpha values must be ints or floats")
+            if a <= 0:
+                raise ValueError("dirichlet alpha values must be > 0")
+        self.alpha = [float(a) for a in alpha_list]
+
+    def __str__(self):
+        return "<Distribution> dirichlet(alpha={})".format(self.alpha)
+
+
+def dirichlet(alpha):
+    """
+    Initialize a Dirichlet distribution.
+
+    The Dirichlet distribution is a multivariate generalization of the beta
+    distribution. A single sample is a vector of length ``len(alpha)`` whose
+    entries are non-negative and sum to 1, making it a natural prior over
+    categorical probabilities.
+
+    Parameters
+    ----------
+    alpha : list or tuple or numpy.ndarray
+        The concentration parameters of the distribution. Must have length >= 2
+        and all entries must be > 0. Larger values concentrate samples near the
+        mean ``alpha / sum(alpha)``; smaller values push mass toward the
+        vertices of the simplex.
+
+    Returns
+    -------
+    DirichletDistribution
+
+    Examples
+    --------
+    >>> dirichlet([1, 1, 1])
+    <Distribution> dirichlet(alpha=[1.0, 1.0, 1.0])
+    """
+    return DirichletDistribution(alpha)
+
+
 class BernoulliDistribution(DiscreteDistribution):
     def __init__(self, p):
         super().__init__()

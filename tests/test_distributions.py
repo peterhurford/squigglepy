@@ -9,6 +9,7 @@ from ..squigglepy.distributions import (
     invlognorm,
     binomial,
     beta,
+    dirichlet,
     bernoulli,
     discrete,
     tdist,
@@ -50,6 +51,7 @@ from ..squigglepy.distributions import (
     PERTDistribution,
     BernoulliDistribution,
     BetaDistribution,
+    DirichletDistribution,
     BinomialDistribution,
     ChiSquareDistribution,
     ConstantDistribution,
@@ -625,6 +627,38 @@ def test_beta():
     assert beta(10, 1).a == 10
     assert beta(10, 1).b == 1
     assert str(beta(10, 1)) == "<Distribution> beta(a=10, b=1)"
+
+
+def test_dirichlet():
+    d = dirichlet([1, 2, 3])
+    assert isinstance(d, DirichletDistribution)
+    assert d.alpha == [1.0, 2.0, 3.0]
+    assert str(d) == "<Distribution> dirichlet(alpha=[1.0, 2.0, 3.0])"
+    # Accepts tuples and numpy arrays
+    assert dirichlet((1, 1)).alpha == [1.0, 1.0]
+    assert dirichlet(np.array([1.5, 2.5])).alpha == [1.5, 2.5]
+
+
+def test_dirichlet_invalid():
+    with pytest.raises(ValueError) as execinfo:
+        dirichlet([1])
+    assert "length >= 2" in str(execinfo.value)
+
+    with pytest.raises(ValueError) as execinfo:
+        dirichlet([1, 0])
+    assert "must be > 0" in str(execinfo.value)
+
+    with pytest.raises(ValueError) as execinfo:
+        dirichlet([1, -0.5])
+    assert "must be > 0" in str(execinfo.value)
+
+    with pytest.raises(ValueError) as execinfo:
+        dirichlet([1, "a"])
+    assert "must be ints or floats" in str(execinfo.value)
+
+    with pytest.raises(ValueError) as execinfo:
+        dirichlet("abc")
+    assert "must be a list, tuple, or numpy array" in str(execinfo.value)
 
 
 def test_bernoulli():

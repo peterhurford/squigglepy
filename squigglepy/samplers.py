@@ -27,6 +27,7 @@ from .distributions import (
     BaseDistribution,
     BernoulliDistribution,
     BetaDistribution,
+    DirichletDistribution,
     BinomialDistribution,
     ChiSquareDistribution,
     ComplexDistribution,
@@ -317,6 +318,39 @@ def beta_sample(a, b, samples=1):
     0.22145847498048798
     """
     return _simplify(_get_rng().beta(a, b, samples))
+
+
+def dirichlet_sample(alpha, samples=1):
+    """
+    Sample a random vector according to a Dirichlet distribution.
+
+    Each sample is a vector of length ``len(alpha)`` whose entries are
+    non-negative and sum to 1.
+
+    Parameters
+    ----------
+    alpha : list or tuple or numpy.ndarray
+        The concentration parameters of the Dirichlet distribution. All values
+        must be > 0.
+    samples : int
+        The number of samples to return.
+
+    Returns
+    -------
+    numpy.ndarray
+        A single sample is returned with shape ``(len(alpha),)``. Multiple
+        samples are returned with shape ``(samples, len(alpha))``.
+
+    Examples
+    --------
+    >>> set_seed(42)
+    >>> dirichlet_sample([1, 1, 1])
+    array([0.30558298, 0.06234188, 0.63207514])
+    """
+    out = _get_rng().dirichlet(alpha, samples)
+    if samples == 1:
+        return out[0]
+    return out
 
 
 def bernoulli_sample(p, samples=1):
@@ -1162,6 +1196,9 @@ def sample(
 
         elif isinstance(dist, BetaDistribution):
             samples = beta_sample(a=dist.a, b=dist.b, samples=n)
+
+        elif isinstance(dist, DirichletDistribution):
+            samples = dirichlet_sample(alpha=dist.alpha, samples=n)
 
         elif isinstance(dist, BernoulliDistribution):
             samples = bernoulli_sample(p=dist.p, samples=n)
